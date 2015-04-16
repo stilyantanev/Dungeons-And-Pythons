@@ -11,6 +11,9 @@ class HeroTest(unittest.TestCase):
         self.assertTrue(isinstance(self.hunter, Hero))
 
     def test_valid_members(self):
+        self.assertEqual(self.hunter.max_health, 120)
+        self.assertEqual(self.hunter.max_mana, 120)
+
         self.assertEqual(self.hunter.name, "Hunta")
         self.assertEqual(self.hunter.title, "Arrow")
         self.assertEqual(self.hunter.health, 120)
@@ -54,11 +57,14 @@ class HeroTest(unittest.TestCase):
         self.assertEqual(self.hunter.take_healing(20), True)
         self.assertEqual(self.hunter.health, 110)
 
-    # def test_take_mana_with_more_points_than_max_mana(self):
-    #     pass
+    def test_take_mana_with_more_points_than_max_mana(self):
+        self.hunter.mana = 80
+        self.hunter.take_mana(200)
+        self.assertEqual(self.hunter.mana, 120)
 
-    # def test_take_mana_with_negative_mana(self):
-    #     pass
+    def test_take_mana_with_negative_mana(self):
+        self.hunter.mana = 50
+        self.assertEqual(self.hunter)
 
     # def test_take_mana_with_less_points_than_max_mana(self):
     #     pass

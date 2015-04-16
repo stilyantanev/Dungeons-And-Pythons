@@ -1,6 +1,6 @@
 class Hero:
 
-    def __init__(self, name="", title="", health=100, mana=100, mana_rate=2):
+    def __init__(self, name, title, health=100, mana=100, mana_regeneration_rate=2):
         self.max_health = health
         self.max_mana = mana
 
@@ -8,7 +8,7 @@ class Hero:
         self.title = title
         self.health = health
         self.mana = mana
-        self.mana_regeneration_rate = mana_rate
+        self.mana_regeneration_rate = mana_regeneration_rate
 
     def known_as(self):
         nickname = "{} the {}".format(self.name, self.title)
@@ -24,7 +24,7 @@ class Hero:
         return self.health != 0
 
     def can_cast(self):
-        # Add functionality for given magic
+        # Add functionality for given magic!!!
         return self.mana != 0
 
     def take_damage(self, damage_points):
@@ -52,11 +52,16 @@ class Hero:
         else:
             self.mana += mana_points
 
-    def equip(weapon):
-        pass
+    def equip(self, weapon):
+        self.weapon = weapon
 
-    def learn(spell):
-        pass
+    def learn(self, spell):
+        self.spell = spell
 
-    def attack(by=""):
-        pass
+    def attack(self, by=""):
+        if hasattr(self, 'weapon') and by == "weapon":
+            return self.weapon.damage
+        elif hasattr(self, 'spell') and by == "spell":
+            return self.spell.damage
+        else:
+            return 0
