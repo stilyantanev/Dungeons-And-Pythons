@@ -27,13 +27,16 @@ class TestEnemy(unittest.TestCase):
     def test_healing(self):
         dead_enemy = Enemy(health=0, mana=100, damage=20)
         some_enemy = Enemy(health=50, mana=100, damage=20)
-        self.assertFalse(dead_enemy.take_healing(10))
+        dead_enemy.take_healing(10)
         some_enemy.take_healing(10)
-        self.assertEqual(some_enemy.health, 60)
+
+        self.assertEqual(some_enemy.health, 50)
+        self.assertEqual(dead_enemy.health, 0)
 
         enemy1 = Enemy(health=10, mana=100, damage=20)
-        enemy1.take_healing(500)
-        self.assertEqual(enemy1.health, 100)
+        enemy1.health = 5
+        enemy1.take_healing(2)
+        self.assertEqual(enemy1.health, 7)
 
     def test_take_mana(self):
         self.enemy.take_mana(-10)
@@ -48,7 +51,6 @@ class TestEnemy(unittest.TestCase):
 
         some_enemy.take_mana(-100)
         self.assertTrue(some_enemy.get_mana() == 0)
-
 
 if __name__ == '__main__':
     unittest.main()

@@ -5,7 +5,7 @@ from hero import Hero
 class HeroTest(unittest.TestCase):
 
     def setUp(self):
-        self.hunter = Hero(name="Hunta", title="Arrow", health=120, mana=120, mana_rate=2)
+        self.hunter = Hero("Hunta", "Arrow", 120, 120, 2)
 
     def test_create_new_instance(self):
         self.assertTrue(isinstance(self.hunter, Hero))
@@ -44,23 +44,23 @@ class HeroTest(unittest.TestCase):
         self.hunter.health = 0
         self.assertEqual(self.hunter.take_healing(200), False)
 
-    def test_take_healing_with_more_points_than_start_health(self):
+    def test_take_healing_with_more_points_than_max_health(self):
         self.hunter.health = 80
         self.assertEqual(self.hunter.take_healing(200), True)
         self.assertEqual(self.hunter.health, 120)
 
-    def test_take_healing_with_less_points_than_start_health(self):
+    def test_take_healing_with_less_points_than_max_health(self):
         self.hunter.health = 90
         self.assertEqual(self.hunter.take_healing(20), True)
         self.assertEqual(self.hunter.health, 110)
 
-    # def test_take_mana_with_more_points_than_start_mana(self):
+    # def test_take_mana_with_more_points_than_max_mana(self):
     #     pass
 
     # def test_take_mana_with_negative_mana(self):
     #     pass
 
-    # def test_take_mana_with_less_points_than_start_mana(self):
+    # def test_take_mana_with_less_points_than_max_mana(self):
     #     pass
 
 if __name__ == '__main__':

@@ -1,8 +1,8 @@
 class Hero:
 
     def __init__(self, name="", title="", health=100, mana=100, mana_rate=2):
-        self.start_health = health
-        self.start_mana = mana
+        self.max_health = health
+        self.max_mana = mana
 
         self.name = name
         self.title = title
@@ -36,17 +36,17 @@ class Hero:
     def take_healing(self, healing_points):
         if self.health == 0:
             return False
-        elif self.health + healing_points >= self.start_health:
-            self.health = self.start_health
+        elif self.health + healing_points >= self.max_health:
+            self.health = self.max_health
             return True
-        elif self.health + healing_points < self.start_health:
+        elif self.health + healing_points < self.max_health:
             self.health += healing_points
             return True
 
     def take_mana(self, mana_points):
         # Add move functionality
-        if self.mana + mana_points >= self.start_mana:
-            self.mana = self.start_mana
+        if self.mana + mana_points >= self.max_mana:
+            self.mana = self.max_mana
         elif self.mana + mana_points <= 0:
             self.mana = 0
         else:
