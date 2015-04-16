@@ -1,5 +1,7 @@
 import unittest
 from hero import Hero
+from weapons_and_spells import Weapon
+from weapons_and_spells import Spell
 
 
 class HeroTest(unittest.TestCase):
@@ -64,10 +66,36 @@ class HeroTest(unittest.TestCase):
 
     def test_take_mana_with_negative_mana(self):
         self.hunter.mana = 50
-        self.assertEqual(self.hunter)
+        self.hunter.take_mana(-60)
+        self.assertEqual(self.hunter.mana, 0)
 
-    # def test_take_mana_with_less_points_than_max_mana(self):
-    #     pass
+    def test_take_mana_in_ordinary_case(self):
+        self.hunter.mana = 65
+        self.hunter.take_mana(20)
+        self.assertEqual(self.hunter.mana, 85)
+
+    def test_equip(self):
+        axe = Weapon()
+        self.hunter.equip(axe)
+        self.assertEqual(self.hunter.weapon, axe)
+
+    def test_learn(self):
+        fireball = Spell()
+        self.hunter.learn(fireball)
+        self.assertEqual(self.hunter.spell, fireball)
+
+    def test_atack_without_nothing(self):
+        self.assertEqual(self.hunter.attack(), 0)
+
+    def test_attack_with_weapon(self):
+        axe = Weapon()
+        self.hunter.equip(axe)
+        self.assertEqual(self.hunter.attack(by="weapon"), 20)
+
+    def test_attack_with_spell(self):
+        fireball = Spell()
+        self.hunter.learn(fireball)
+        self.assertEqual(self.hunter.attack(by="spell"), 30)
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,4 +1,6 @@
 from enemy import Enemy
+from weapons_and_spells import Weapon
+from weapons_and_spells import Spell
 import unittest
 
 
@@ -24,33 +26,57 @@ class TestEnemy(unittest.TestCase):
     def test_get_mana(self):
         self.assertEqual(self.enemy.get_mana(), 100)
 
-    def test_healing(self):
-        dead_enemy = Enemy(health=0, mana=100, damage=20)
-        some_enemy = Enemy(health=50, mana=100, damage=20)
-        dead_enemy.take_healing(10)
-        some_enemy.take_healing(10)
+    def test_take_healing_dead_enemy(self):
+        self.enemy.health = 0
+        self.assertEqual(self.enemy.take_healing(200), False)
 
-        self.assertEqual(some_enemy.health, 50)
-        self.assertEqual(dead_enemy.health, 0)
+    def test_take_healing_with_more_points_than_max_health(self):
+        self.enemy.health = 80
+        self.assertEqual(self.enemy.take_healing(200), True)
+        self.assertEqual(self.enemy.health, 100)
 
-        enemy1 = Enemy(health=10, mana=100, damage=20)
-        enemy1.health = 5
-        enemy1.take_healing(2)
-        self.assertEqual(enemy1.health, 7)
+    def test_take_healing_with_less_points_than_max_health(self):
+        self.enemy.health = 90
+        self.assertEqual(self.enemy.take_healing(5), True)
+        self.assertEqual(self.enemy.health, 95)
 
-    def test_take_mana(self):
-        self.enemy.take_mana(-10)
-        self.assertTrue(self.enemy.get_mana() == 90)
+    def test_take_mana_with_more_points_than_max_mana(self):
+        self.enemy.mana = 80
+        self.enemy.take_mana(200)
+        self.assertEqual(self.enemy.mana, 100)
 
-        self.enemy.take_mana(10)
-        self.assertTrue(self.enemy.get_mana() == 100)
+    def test_take_mana_with_negative_mana(self):
+        self.enemy.mana = 50
+        self.enemy.take_mana(-60)
+        self.assertEqual(self.enemy.mana, 0)
 
-        some_enemy = Enemy(health=50, mana=50, damage=20)
-        some_enemy.take_mana(100)
-        self.assertTrue(some_enemy.get_mana() == 50)
+    def test_take_mana_in_ordinary_case(self):
+        self.enemy.mana = 65
+        self.enemy.take_mana(20)
+        self.assertEqual(self.enemy.mana, 85)
 
-        some_enemy.take_mana(-100)
-        self.assertTrue(some_enemy.get_mana() == 0)
+    def test_equip(self):
+        axe = Weapon()
+        self.enemy.equip(axe)
+        self.assertEqual(self.enemy.weapon, axe)
+
+    def test_learn(self):
+        fireball = Spell()
+        self.enemy.learn(fireball)
+        self.assertEqual(self.enemy.spell, fireball)
+
+    def test_atack_without_nothing(self):
+        self.assertEqual(self.enemy.attack(), 0)
+
+    def test_attack_with_weapon(self):
+        axe = Weapon()
+        self.enemy.equip(axe)
+        self.assertEqual(self.enemy.attack(by="weapon"), 40)
+
+    def test_attack_with_spell(self):
+        fireball = Spell()
+        self.enemy.learn(fireball)
+        self.assertEqual(self.enemy.attack(by="spell"), 50)
 
 if __name__ == '__main__':
     unittest.main()
