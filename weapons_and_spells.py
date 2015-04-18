@@ -4,6 +4,9 @@ class Weapon:
         self.name = name
         self.damage = damage
 
+    def __str__(self):
+        return "{} with damage={}".format(self.name, self.damage)
+
 
 class Spell:
 
