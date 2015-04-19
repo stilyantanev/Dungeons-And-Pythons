@@ -20,7 +20,7 @@ class Dungeon():
 
     def print_map(self):
         for line in self.map:
-            print (line)
+            print ("".join(line))
 
     def spawn(self, hero):
         if not isinstance(hero, Hero):
