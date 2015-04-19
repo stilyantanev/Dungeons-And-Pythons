@@ -5,6 +5,14 @@ import random
 import json
 
 
+class NotAHero(Exception):
+    pass
+
+
+class NotValidDirection(Exception):
+    pass
+
+
 class Dungeon():
 
     def __init__(self, file_name):
@@ -24,7 +32,7 @@ class Dungeon():
 
     def spawn(self, hero):
         if not isinstance(hero, Hero):
-            raise ValueError
+            raise NotAHero
 
         for row in range(0, len(self.map)):
             for col in range(0, len(self.map[row])):
@@ -50,7 +58,7 @@ class Dungeon():
         col = current_position[1]
 
         if direction not in ["up", "down", "left", "right"]:
-            raise ValueError
+            raise NotValidDirection
 
         if direction == "up":
             if row - 1 > 0:
