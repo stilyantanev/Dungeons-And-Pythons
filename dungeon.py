@@ -1,5 +1,6 @@
 from hero import Hero
 from weapons_and_spells import Weapon
+from weapons_and_spells import Spell
 import random
 import json
 
@@ -174,7 +175,13 @@ class Dungeon():
             print ("Your new weapon is: {}". format(self.dungeon_hero.weapon))
 
         else:
-            pass
+            found_spell = self.generate_spell_from_file("spells.json")
+
+            s = Spell(found_spell["name"], found_spell["damage"],
+                      found_spell["mana_cost"], found_spell["cast_range"])
+            self.dungeon_hero.learn(s)
+
+            print ("Your new spell is: {}". format(self.dungeon_hero.spell))
 
     def generate_weapon_from_file(self, file_name):
         with open(file_name, "r") as load_file:
@@ -190,3 +197,38 @@ class Dungeon():
 
         return chosen_weapon
 
+    def generate_spell_from_file(self, file_name):
+        with open(file_name, "r") as load_file:
+            load_data = load_file.read()
+            spells_data = json.loads(load_data)
+
+            spell_name = random.choice(list(spells_data.keys()))
+            spell_damage = spells_data[spell_name][0]
+            spell_mana_cost = spells_data[spell_name][1]
+            spell_cast_range = spells_data[spell_name][2]
+
+            chosen_spell = {}
+            chosen_spell["name"] = spell_name
+            chosen_spell["damage"] = spell_damage
+            chosen_spell["mana_cost"] = spell_mana_cost
+            chosen_spell["cast_range"] = spell_cast_range
+
+        return chosen_spell
+
+
+map_level1 = Dungeon('level1.txt')
+hunter = Hero("Hunta", "Arrow", 120, 120, 2)
+
+# map_level1.spawn(hunter)
+# map_level1.print_map()
+
+# map_level1.generate_weapon_from_file("weapons.json")
+
+# print (map_level1.move_hero("up"))
+# print (map_level1.move_hero("down"))
+# print (map_level1.move_hero("left"))
+# print (map_level1.move_hero("right"))
+# map_level1.print_map()
+
+# print (map_level1.move_hero("down"))
+# map_level1.print_map()
