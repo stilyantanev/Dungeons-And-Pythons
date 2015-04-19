@@ -1,5 +1,7 @@
 from hero import Hero
+from weapons_and_spells import Weapon
 import random
+import json
 
 
 class Dungeon():
@@ -164,7 +166,27 @@ class Dungeon():
                    format(self.dungeon_hero.get_mana()))
 
         elif random_treasure == "weapon":
-            pass
+            found_weapon = self.generate_weapon_from_file("weapons.json")
+
+            w = Weapon(found_weapon["name"], found_weapon["damage"])
+            self.dungeon_hero.equip(w)
+
+            print ("Your new weapon is: {}". format(self.dungeon_hero.weapon))
 
         else:
             pass
+
+    def generate_weapon_from_file(self, file_name):
+        with open(file_name, "r") as load_file:
+            load_data = load_file.read()
+            weapons_data = json.loads(load_data)
+
+            weapon_name = random.choice(list(weapons_data.keys()))
+            weapon_damage = weapons_data[weapon_name]
+
+            chosen_weapon = {}
+            chosen_weapon["name"] = weapon_name
+            chosen_weapon["damage"] = weapon_damage
+
+        return chosen_weapon
+
