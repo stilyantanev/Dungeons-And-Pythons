@@ -47,15 +47,15 @@ class Dungeon():
         for row in range(0, len(self.map)):
             for col in range(0, len(self.map[row])):
                 if self.map[row][col] == 'H':
-                    position[0] = row
-                    position[1] = col
+                    position["row"] = row
+                    position["col"] = col
 
         return position
 
     def move_hero(self, direction):
         current_position = self.get_current_position()
-        row = current_position[0]
-        col = current_position[1]
+        row = current_position["row"]
+        col = current_position["col"]
 
         if direction not in ["up", "down", "left", "right"]:
             raise NotValidDirection
