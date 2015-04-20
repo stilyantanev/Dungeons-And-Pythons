@@ -40,16 +40,16 @@ class TestDungeon(unittest.TestCase):
 
     def test_move_hero(self):
         self.map_level1.spawn(self.hunter)
-        self.assertEqual(self.map_level1.get_current_position(), {0: 0, 1: 0})
+        self.assertEqual(self.map_level1.get_current_position(), {"row": 0, "col": 0})
         self.assertTrue(self.map_level1.move_hero("right"))
-        self.assertEqual(self.map_level1.get_current_position(), {0: 0, 1: 1})
+        self.assertEqual(self.map_level1.get_current_position(), {"row": 0, "col": 1})
         self.assertEqual(self.map_level1.map[0][0], ".")
 
         self.assertFalse(self.map_level1.move_hero("up"))
 
         self.assertEqual(self.map_level1.map[1][1], "T")
         self.assertTrue(self.map_level1.move_hero("down"))
-        self.assertEqual(self.map_level1.get_current_position(), {0: 1, 1: 1})
+        self.assertEqual(self.map_level1.get_current_position(), {"row": 1, "col": 1})
         self.assertEqual(self.map_level1.map[0][1], '.')
         self.assertEqual(self.map_level1.map[1][1], "H")
 
