@@ -1,6 +1,6 @@
 from hero import Hero
 from weapons_and_spells import Weapon
-
+from dungeon import Dungeon
 
 def main():
 
@@ -12,6 +12,9 @@ def main():
     # h.equip(w)
 
     # print(h.attack(by="weapon") == 0)
+
+    dung = Dungeon("level1.txt")
+    dung.print_map()
 
 if __name__ == '__main__':
     main()
