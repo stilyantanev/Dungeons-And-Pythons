@@ -4,6 +4,9 @@ class Weapon:
         self.name = name
         self.damage = damage
 
+    def __str__(self):
+        return "{} with damage={}". format(self.name, self.damage)
+
 
 class Spell:
 
@@ -12,3 +15,7 @@ class Spell:
         self.damage = damage
         self.mana_cost = mana_cost
         self.cast_range = cast_range
+
+    def __str__(self):
+        return "{} with damage:{}, mana_cost:{}, cast_range:{}" . format(
+            self.name, self.damage, self.mana_cost, self.cast_range)

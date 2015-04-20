@@ -9,11 +9,15 @@ class WeaponTest(unittest.TestCase):
         self.weapon = Weapon()
 
     def test_is_instance(self):
-        self.assertEqual(isinstance(self.weapon, Weapon))
+        self.assertTrue(isinstance(self.weapon, Weapon))
 
     def test_valid_members(self):
         self.assertEqual(self.weapon.name, "The Axe of Destiny")
         self.assertEqual(self.weapon.damage, 20)
+
+    def test_str(self):
+        expected = "The Axe of Destiny with damage=20"
+        self.assertEqual(str(self.weapon), expected)
 
 
 class SpellTest(unittest.TestCase):
@@ -22,7 +26,7 @@ class SpellTest(unittest.TestCase):
         self.spell = Spell()
 
     def test_is_instance(self):
-        self.assertEqual(isinstance(self.spell, Spell))
+        self.assertTrue(isinstance(self.spell, Spell))
 
     def test_valid_members(self):
         self.assertEqual(self.spell.name, "Fireball")
