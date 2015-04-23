@@ -1,20 +1,20 @@
 class Enemy:
 
-    def __init__(self, health=100, mana=100, damage=20):
+    def __init__(self, health, mana, damage):
         self.health = health
         self.mana = mana
         self.damage = damage
 
-        self.max_mana = mana
         self.max_health = health
+        self.max_mana = mana
 
     def is_alive(self):
         if self.health > 0:
             return True
-        return False
+        else:
+            return False
 
     def can_cast(self):
-        # Add functionality for given magic!!!
         return self.mana != 0
 
     def get_health(self):
@@ -48,9 +48,13 @@ class Enemy:
         self.spell = spell
 
     def attack(self, by=""):
-        if hasattr(self, 'weapon') and by == "weapon":
-            return self.weapon.damage + self.damage
-        elif hasattr(self, 'spell') and by == "spell":
-            return self.spell.damage + self.damage
-        else:
-            return 0
+        if by == "weapon":
+            if self.weapon is not None:
+                return self.weapon.damage
+            else:
+                return 0
+        elif by == "spell":
+            if self.spell is not None:
+                return self.spell.damage
+            else:
+                return 0

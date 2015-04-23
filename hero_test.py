@@ -1,29 +1,29 @@
 import unittest
 from hero import Hero
-from weapons_and_spells import Weapon
-from weapons_and_spells import Spell
+from weapon import Weapon
+from spell import Spell
 
 
 class HeroTest(unittest.TestCase):
 
     def setUp(self):
-        self.hunter = Hero("Hunta", "Arrow", 120, 120, 2)
+        self.hunter = Hero("Lagerta", "Arrow", 120, 120, 2)
 
     def test_create_new_instance(self):
         self.assertTrue(isinstance(self.hunter, Hero))
 
     def test_valid_members(self):
-        self.assertEqual(self.hunter.max_health, 120)
-        self.assertEqual(self.hunter.max_mana, 120)
-
-        self.assertEqual(self.hunter.name, "Hunta")
+        self.assertEqual(self.hunter.name, "Lagerta")
         self.assertEqual(self.hunter.title, "Arrow")
         self.assertEqual(self.hunter.health, 120)
         self.assertEqual(self.hunter.mana, 120)
         self.assertEqual(self.hunter.mana_regeneration_rate, 2)
 
+        self.assertEqual(self.hunter.max_health, 120)
+        self.assertEqual(self.hunter.max_mana, 120)
+
     def test_known_as(self):
-        self.assertEqual(self.hunter.known_as(), "Hunta the Arrow")
+        self.assertEqual(self.hunter.known_as(), "Lagerta the Arrow")
 
     def test_get_health(self):
         self.assertEqual(self.hunter.get_health(), 120)
@@ -33,6 +33,9 @@ class HeroTest(unittest.TestCase):
 
     def test_is_alive(self):
         self.assertEqual(self.hunter.is_alive(), True)
+
+        self.hunter.health = 0
+        self.assertEqual(self.hunter.is_alive(), False)
 
     def test_can_cast(self):
         self.assertEqual(self.hunter.can_cast(), True)
@@ -69,33 +72,30 @@ class HeroTest(unittest.TestCase):
         self.hunter.take_mana(-60)
         self.assertEqual(self.hunter.mana, 0)
 
-    def test_take_mana_in_ordinary_case(self):
+    def test_take_mana_with_less_points_than_max_mana(self):
         self.hunter.mana = 65
         self.hunter.take_mana(20)
         self.assertEqual(self.hunter.mana, 85)
 
     def test_equip(self):
-        axe = Weapon()
-        self.hunter.equip(axe)
-        self.assertEqual(self.hunter.weapon, axe)
+        knife = Weapon("Knife", 10)
+        self.hunter.equip(knife)
+        self.assertEqual(self.hunter.weapon, knife)
 
     def test_learn(self):
-        fireball = Spell()
-        self.hunter.learn(fireball)
-        self.assertEqual(self.hunter.spell, fireball)
-
-    def test_atack_without_nothing(self):
-        self.assertEqual(self.hunter.attack(), 0)
+        mind_blast = Spell("Mind Blast", 20, 35, 5)
+        self.hunter.learn(mind_blast)
+        self.assertEqual(self.hunter.spell, mind_blast)
 
     def test_attack_with_weapon(self):
-        axe = Weapon()
-        self.hunter.equip(axe)
-        self.assertEqual(self.hunter.attack(by="weapon"), 20)
+        knife = Weapon("Sword", 30)
+        self.hunter.equip(knife)
+        self.assertEqual(self.hunter.attack(by="weapon"), 30)
 
     def test_attack_with_spell(self):
-        fireball = Spell()
-        self.hunter.learn(fireball)
-        self.assertEqual(self.hunter.attack(by="spell"), 30)
+        fire_blast = Spell("Fire Blast", 60, 40, 2)
+        self.hunter.learn(fire_blast)
+        self.assertEqual(self.hunter.attack(by="spell"), 60)
 
 if __name__ == '__main__':
     unittest.main()

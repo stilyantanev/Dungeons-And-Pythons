@@ -1,14 +1,17 @@
 class Hero:
 
-    def __init__(self, name, title, health=100, mana=100, mana_regeneration_rate=2):
-        self.max_health = health
-        self.max_mana = mana
-
+    def __init__(self, name, title, health, mana, mana_rate):
         self.name = name
         self.title = title
         self.health = health
         self.mana = mana
-        self.mana_regeneration_rate = mana_regeneration_rate
+        self.mana_regeneration_rate = mana_rate
+
+        self.max_health = health
+        self.max_mana = mana
+
+        self.weapon = None
+        self.spell = None
 
     def known_as(self):
         nickname = "{} the {}".format(self.name, self.title)
@@ -21,10 +24,12 @@ class Hero:
         return self.mana
 
     def is_alive(self):
-        return self.health != 0
+        if self.health > 0:
+            return True
+        else:
+            return False
 
     def can_cast(self):
-        # Add functionality for given magic!!!
         return self.mana != 0
 
     def take_damage(self, damage_points):
@@ -44,7 +49,6 @@ class Hero:
             return True
 
     def take_mana(self, mana_points):
-        # Add move functionality
         if self.mana + mana_points >= self.max_mana:
             self.mana = self.max_mana
         elif self.mana + mana_points <= 0:
@@ -59,9 +63,13 @@ class Hero:
         self.spell = spell
 
     def attack(self, by=""):
-        if hasattr(self, 'weapon') and by == "weapon":
-            return self.weapon.damage
-        elif hasattr(self, 'spell') and by == "spell":
-            return self.spell.damage
-        else:
-            return 0
+        if by == "weapon":
+            if self.weapon is not None:
+                return self.weapon.damage
+            else:
+                return 0
+        elif by == "spell":
+            if self.spell is not None:
+                return self.spell.damage
+            else:
+                return 0
