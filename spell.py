@@ -1,4 +1,5 @@
 import json
+from random import randint
 
 
 class Spell:
@@ -44,19 +45,19 @@ class Spell:
         return data
 
     def save(self):
-        with open("spell.json", "w") as file:
-            file.write(json.dumps(self.prepare_json(), indent=True))
+        with open("spells.json", "w") as text_file:
+            text_file.write(json.dumps(self.prepare_json(), indent=True))
 
     @staticmethod
     def load(path):
-        with open(path, "r") as file:
-            file_content = file.read()
+        with open(path) as text_file:
+            file_content = text_file.read()
 
-        data = json.loads(file_content)
+            data = json.loads(file_content)
 
-        name = data["name"]
-        damage = data["damage"]
-        mana_cost = data["mana_cost"]
-        cast_range = data["cast_range"]
+            name = data[randint(0, len(data) - 1)]["name"]
+            damage = data[randint(0, len(data) - 1)]["damage"]
+            mana_cost = data[randint(0, len(data) - 1)]["mana_cost"]
+            cast_range = data[randint(0, len(data) - 1)]["cast_range"]
 
-        return Spell(name, damage, mana_cost, cast_range)
+            return Spell(name, damage, mana_cost, cast_range)

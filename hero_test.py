@@ -32,13 +32,21 @@ class HeroTest(unittest.TestCase):
         self.assertEqual(self.hunter.get_mana(), 120)
 
     def test_is_alive(self):
-        self.assertEqual(self.hunter.is_alive(), True)
-
+        self.assertTrue(self.hunter.is_alive())
         self.hunter.health = 0
-        self.assertEqual(self.hunter.is_alive(), False)
+        self.assertFalse(self.hunter.is_alive())
 
-    def test_can_cast(self):
-        self.assertEqual(self.hunter.can_cast(), True)
+    def test_can_cast_without_spell(self):
+        self.assertFalse(self.hunter.can_cast())
+
+    def test_can_cast_with_more_mana(self):
+        self.hunter.spell = Spell("Chilling Poison", 20, 20, 2)
+        self.assertTrue(self.hunter.can_cast())
+
+    def test_can_cast_with_less_mana(self):
+        self.hunter.spell = Spell("Chilling Poison", 20, 20, 2)
+        self.hunter.mana = 0
+        self.assertFalse(self.hunter.can_cast())
 
     def test_take_damage_more_than_health(self):
         self.hunter.take_damage(150)
@@ -50,16 +58,16 @@ class HeroTest(unittest.TestCase):
 
     def test_take_healing_dead_hero(self):
         self.hunter.health = 0
-        self.assertEqual(self.hunter.take_healing(200), False)
+        self.assertFalse(self.hunter.take_healing(200))
 
     def test_take_healing_with_more_points_than_max_health(self):
         self.hunter.health = 80
-        self.assertEqual(self.hunter.take_healing(200), True)
+        self.assertTrue(self.hunter.take_healing(200))
         self.assertEqual(self.hunter.health, 120)
 
     def test_take_healing_with_less_points_than_max_health(self):
         self.hunter.health = 90
-        self.assertEqual(self.hunter.take_healing(20), True)
+        self.assertTrue(self.hunter.take_healing(20))
         self.assertEqual(self.hunter.health, 110)
 
     def test_take_mana_with_more_points_than_max_mana(self):
@@ -87,12 +95,18 @@ class HeroTest(unittest.TestCase):
         self.hunter.learn(mind_blast)
         self.assertEqual(self.hunter.spell, mind_blast)
 
-    def test_attack_with_weapon(self):
+    def test_attack_without_equiped_weapon(self):
+        self.assertEqual(self.hunter.attack(by="weapon"), 0)
+
+    def test_attack_with_equiped_weapon(self):
         knife = Weapon("Sword", 30)
         self.hunter.equip(knife)
         self.assertEqual(self.hunter.attack(by="weapon"), 30)
 
-    def test_attack_with_spell(self):
+    def test_attack_without_learned_spell(self):
+        self.assertEqual(self.hunter.attack(by="spell"), 0)
+
+    def test_attack_with_learned_spell(self):
         fire_blast = Spell("Fire Blast", 60, 40, 2)
         self.hunter.learn(fire_blast)
         self.assertEqual(self.hunter.attack(by="spell"), 60)

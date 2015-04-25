@@ -21,13 +21,21 @@ class TestEnemy(unittest.TestCase):
         self.assertEqual(self.enemy.max_mana, 110)
 
     def test_is_alive(self):
-        self.assertEqual(self.enemy.is_alive(), True)
-
+        self.assertTrue(self.enemy.is_alive())
         self.enemy.health = 0
-        self.assertEqual(self.enemy.is_alive(), False)
+        self.assertFalse(self.enemy.is_alive())
 
-    def test_can_cast(self):
+    def test_can_cast_without_spell(self):
+        self.assertFalse(self.enemy.can_cast())
+
+    def test_can_cast_with_more_mana(self):
+        self.enemy.spell = Spell("Chilling Poison", 20, 20, 2)
         self.assertTrue(self.enemy.can_cast())
+
+    def test_can_cast_with_less_mana(self):
+        self.enemy.spell = Spell("Chilling Poison", 20, 20, 2)
+        self.enemy.mana = 0
+        self.assertFalse(self.enemy.can_cast())
 
     def test_get_health(self):
         self.assertEqual(self.enemy.get_health(), 110)
@@ -37,17 +45,17 @@ class TestEnemy(unittest.TestCase):
 
     def test_take_healing_dead_enemy(self):
         self.enemy.health = 0
-        self.assertEqual(self.enemy.take_healing(200), False)
+        self.assertFalse(self.enemy.take_healing(200))
 
     def test_take_healing_with_more_points_than_max_health(self):
         self.enemy.health = 80
-        self.assertEqual(self.enemy.take_healing(200), True)
+        self.assertTrue(self.enemy.take_healing(200))
         self.assertEqual(self.enemy.health, 110)
 
     def test_take_healing_with_less_points_than_max_health(self):
         self.enemy.health = 90
-        self.assertEqual(self.enemy.take_healing(20), True)
-        self.assertEqual(self.enemy.health, 110)
+        self.assertTrue(self.enemy.take_healing(10))
+        self.assertEqual(self.enemy.health, 100)
 
     def test_take_mana_with_more_points_than_max_mana(self):
         self.enemy.mana = 80
@@ -74,12 +82,18 @@ class TestEnemy(unittest.TestCase):
         self.enemy.learn(mind_blast)
         self.assertEqual(self.enemy.spell, mind_blast)
 
-    def test_attack_with_weapon(self):
+    def test_attack_without_equiped_weapon(self):
+        self.assertEqual(self.enemy.attack(by="weapon"), 0)
+
+    def test_attack_with_equiped_weapon(self):
         knife = Weapon("Sword", 50)
         self.enemy.equip(knife)
         self.assertEqual(self.enemy.attack(by="weapon"), 50)
 
-    def test_attack_with_spell(self):
+    def test_attack_without_learned_spell(self):
+        self.assertEqual(self.enemy.attack(by="spell"), 0)
+
+    def test_attack_with_learned_spell(self):
         fire_blast = Spell("Fire Blast", 40, 30, 1)
         self.enemy.learn(fire_blast)
         self.assertEqual(self.enemy.attack(by="spell"), 40)
