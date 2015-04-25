@@ -1,4 +1,5 @@
 import json
+from random import randint
 
 
 class Weapon:
@@ -28,17 +29,17 @@ class Weapon:
         return data
 
     def save(self):
-        with open("weapon.json", "w") as file:
-            file.write(json.dumps(self.prepare_json(), indent=True))
+        with open("weapons.json", "w") as text_file:
+            text_file.write(json.dumps(self.prepare_json(), 4))
 
     @staticmethod
     def load(path):
-        with open(path, "r") as file:
-            file_content = file.read()
+        with open(path) as text_file:
+            file_content = text_file.read()
 
-        data = json.loads(file_content)
+            data = json.loads(file_content)
 
-        name = data["name"]
-        damage = data["damage"]
+            name = data[randint(0, len(data) - 1)]["name"]
+            damage = data[randint(0, len(data) - 1)]["damage"]
 
-        return Weapon(name, damage)
+            return Weapon(name, damage)

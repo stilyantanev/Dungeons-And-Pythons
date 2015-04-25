@@ -8,6 +8,9 @@ class Enemy:
         self.max_health = health
         self.max_mana = mana
 
+        self.weapon = None
+        self.spell = None
+
     def is_alive(self):
         if self.health > 0:
             return True
@@ -15,7 +18,14 @@ class Enemy:
             return False
 
     def can_cast(self):
-        return self.mana != 0
+        if self.spell is None:
+            return False
+        else:
+            if self.mana - self.spell.mana_cost >= 0:
+                return True
+
+            if self.mana - self.spell.mana_cost < 0:
+                return False
 
     def get_health(self):
         return self.health
@@ -38,7 +48,7 @@ class Enemy:
             self.mana = self.max_mana
         elif self.mana + mana_points <= 0:
             self.mana = 0
-        else:
+        elif self.mana + mana_points < self.max_mana:
             self.mana += mana_points
 
     def equip(self, weapon):
