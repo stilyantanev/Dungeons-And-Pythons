@@ -51,6 +51,12 @@ class Enemy:
         elif self.mana + mana_points < self.max_mana:
             self.mana += mana_points
 
+    def take_damage(self, damage_points):
+        if self.health <= damage_points:
+            self.health = 0
+        elif self.health > damage_points:
+            self.health -= damage_points
+
     def equip(self, weapon):
         self.weapon = weapon
 
