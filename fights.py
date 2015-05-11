@@ -21,10 +21,10 @@ class Fight:
     @staticmethod
     def attack_by_spell(attacked, attacking, type_attack, type_defend, tool):
         result = ''
-        attacked.take_damage(attacking.attack(by='magic'))
+        attacked.take_damage(attacking.attack(by='spell'))
         result = '{} casts a {}'.format(type_attack, tool.get_name())
         result += ', hits {} for '.format(type_defend)
-        result += str(attacking.attack(by='magic'))
+        result += str(attacking.attack(by='spell'))
         result += '. {} health is '.format(type_defend)
         result += str(attacking.get_health())
 

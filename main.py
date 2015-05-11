@@ -5,7 +5,7 @@ from weapon import Weapon
 if __name__ == '__main__':
 
     hero = Hero("Ragnar", "Lothbrok", 20, 100, 2)
-    knife = Weapon("Knife", 100)
+    knife = Weapon("Knife", 50)
     hero.weapon = knife
     dungeon = Dungeon.load_map_from_file("level1.txt")
 

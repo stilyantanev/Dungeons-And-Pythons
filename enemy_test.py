@@ -43,6 +43,14 @@ class TestEnemy(unittest.TestCase):
     def test_get_mana(self):
         self.assertEqual(self.enemy.get_mana(), 110)
 
+    def test_take_damage_more_than_health(self):
+        self.enemy.take_damage(150)
+        self.assertEqual(self.enemy.health, 0)
+
+    def test_take_damage_less_than_health(self):
+        self.enemy.take_damage(100)
+        self.assertEqual(self.enemy.health, 10)
+
     def test_take_healing_dead_enemy(self):
         self.enemy.health = 0
         self.assertFalse(self.enemy.take_healing(200))
