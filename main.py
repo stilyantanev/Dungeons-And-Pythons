@@ -16,7 +16,7 @@ if __name__ == '__main__':
     print()
 
     dungeon.spawn(hero)
-
+    is_loaded_second_map = False
     while hero.is_alive() or dungeon.spawn(hero):
 
         dungeon.print_map()
@@ -40,7 +40,15 @@ if __name__ == '__main__':
             dungeon.hero_attack(hero)
 
         if is_there_gate:
+            if not is_loaded_second_map:
                 dungeon = Dungeon.load_map_from_file("level2.txt")
                 dungeon.spawn(hero)
+                is_loaded_second_map = True
+            elif is_loaded_second_map:
+                break
 
-    print("You fall down! Try Again!")
+
+    if hero.is_alive():
+        print("You save the queen! Good Job!")
+    else:
+        print("You fight very brave, but you are dead! Try next time!")

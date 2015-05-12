@@ -74,9 +74,10 @@ class Fight:
             if not on_same_field:
                 print(
                     Fight.attack_by_spell(
-                        enemy, hero, 'Hero', 'Enemy', hero.current_spell))
+                        enemy, hero, 'Hero', 'Enemy', hero.spell))
             else:
                 if isinstance(fighting_tool, Spell):
+                    hero.spell = fighting_tool
                     print(
                         Fight.attack_by_spell(
                             enemy, hero, 'Hero', 'Enemy', hero.spell))
